@@ -9,4 +9,4 @@ using System.Threading.Tasks;
 
 namespace ProductCQRS.Application.UseCases.Product.Queries.GetProductsById;
 
-public record GetProductsByIdQuery(int Id): IRequest<Result<List<ProductDto>>>;
+public record GetProductsByIdQuery(int Id): IRequest<Result<ProductDto>>;

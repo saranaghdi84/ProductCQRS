@@ -1,17 +1,13 @@
-﻿using Mapster;
+﻿using FluentValidation.AspNetCore;
+using Mapster;
 using MapsterMapper;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Win32;
 using ProductCQRS.Application.Contracts;
 using ProductCQRS.Application.ResultHandler;
+using ProductCQRS.Application.ResultHandler.LocalizationResources;
 using ProductCQRS.Application.Services;
-using ProductCQRS.Application.UseCases.Mappings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProductCQRS.Application
 {
@@ -23,13 +19,14 @@ namespace ProductCQRS.Application
             var config = TypeAdapterConfig.GlobalSettings;
             config.Scan(Assembly.GetExecutingAssembly());
             services.AddSingleton(config);
-            services.AddScoped<IMapper>();
-
+            services.AddScoped<IMapper, Mapper>();
             // MediatR
             services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddSingleton<LocalizedMessages>();
             services.AddScoped<SyncResult>();
-            services.AddScoped<Result>();
+            //services.AddScoped<Result>();
+            services.AddFluentValidationAutoValidation();
             services.AddHostedService<SyncBackgroundService>();
             services.AddScoped<ISyncService, SyncService>();
             return services;

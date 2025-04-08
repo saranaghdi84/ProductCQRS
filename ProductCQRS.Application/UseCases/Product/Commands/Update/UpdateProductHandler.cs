@@ -16,11 +16,11 @@ public class UpdateProductHandler : IRequestHandler<UpdateProductCommand, Result
         _unitOfWork = unitOfWork;
         _readUnitOfWork = readUnitOfWork;
         _mapper = mapper;
-    }
+    } 
 
     public async Task<Result<bool>> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
     {
-        var product = await _readUnitOfWork.ProductReadRepository.GetByIdAsync(request.Id);
+        var product = await _readUnitOfWork.ProductReadRepository.GetByIdAsync(request.Id , cancellationToken);
         if (product == null)
         {
             return Result.Failure<bool>(Error.NotFound("Product", request.Id));

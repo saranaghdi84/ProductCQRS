@@ -1,6 +1,7 @@
 ﻿using ProductCQRS.Application.Contracts;
 using ProductCQRS.Infrastructure.Persistance.Context;
 using ProductCQRS.Infrastructure.Persistance.Repositories;
+using System.Threading;
 
 namespace ProductCQRS.Infrastructure.Persistance.UnitOfWorks;
 
@@ -18,7 +19,7 @@ public class UnitOfWork : IUnitOfWork
     public IProductCategoryRepository ProductCategoryRepository =>
         _categoryRepository ??= new ProductCategoryRepository(_context);
 
-    public async Task CommitAsync() => await _context.SaveChangesAsync();
+    public async Task CommitAsync(CancellationToken cancellationToken) => await _context.SaveChangesAsync( cancellationToken);
     public void Dispose() => _context.Dispose();
 
 }

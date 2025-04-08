@@ -6,7 +6,7 @@ using ProductCQRS.Application.ResultHandler;
 
 namespace ProductCQRS.Application.UseCases.Product.Queries.GetProductsById;
 
-public class GetProductsByIdHandler : IRequestHandler<GetProductsByIdQuery, Result<List<ProductDto>>>
+public class GetProductsByIdHandler : IRequestHandler<GetProductsByIdQuery, Result<ProductDto>>
 {
     private readonly IReadUnitOfWork _readUnitOfWork;
     private readonly IMapper _mapper;
@@ -16,11 +16,14 @@ public class GetProductsByIdHandler : IRequestHandler<GetProductsByIdQuery, Resu
         _readUnitOfWork = readUnitOfWork;
         _mapper = mapper;
     }
-    public async Task<Result<List<ProductDto>>> Handle(GetProductsByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<ProductDto>> Handle(GetProductsByIdQuery request, CancellationToken cancellationToken)
     {
-        var product = await _readUnitOfWork.ProductReadRepository.GetByIdAsync(request.Id);
+        var product = await _readUnitOfWork.ProductReadRepository.GetByIdAsync(request.Id,cancellationToken);
+
         if (product == null)
-            return Result.Failure<List<ProductDto>>(Error.NotFound("Product", request.Id));
-        return Result.Success(List<product>)
+            return Result.Failure<ProductDto>(Error.NotFound("Product", request.Id));
+
+        var productDto = _mapper.Map<ProductDto>(product);
+        return Result.Success(productDto);
     }
 }

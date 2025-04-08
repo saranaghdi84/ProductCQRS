@@ -25,12 +25,12 @@ public static class InfrastructureServiceConfiguration
 
         services.AddDbContext<CommandDbContext>(options =>
             options.UseSqlServer(
-                configuration.GetConnectionString("CommandDbConnection"),
+                configuration.GetConnectionString("CommandConnection"),
                 sqlOpts => sqlOpts.EnableRetryOnFailure()));
 
         services.AddDbContext<QueryDbContext>(options =>
             options.UseSqlServer(
-                configuration.GetConnectionString("QueryDbConnection"),
+                configuration.GetConnectionString("QueryConnection"),
                 sqlOpts => sqlOpts.EnableRetryOnFailure()));
 
 

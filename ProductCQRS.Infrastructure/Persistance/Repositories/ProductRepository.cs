@@ -2,6 +2,7 @@
 using ProductCQRS.Application.Contracts;
 using ProductCQRS.Domain.Entities;
 using ProductCQRS.Infrastructure.Persistance.Context;
+using System.Threading;
 
 namespace ProductCQRS.Infrastructure.Persistance.Repositories;
 
@@ -13,7 +14,7 @@ public class ProductRepository : IProductRepository
     {
         _context = context;
     }
-    public async Task<bool> Activate(int productId)
+    public async Task<bool> Activate(int productId,CancellationToken cancellationToken)
     {
         var product = await _context.Products.Where(p => p.Id == productId).FirstOrDefaultAsync();
         if (product is null) { return false; }
@@ -22,13 +23,13 @@ public class ProductRepository : IProductRepository
         return true;
     }
 
-    public async Task<bool> AddAsync(Product product)
+    public async Task<bool> AddAsync(Product product, CancellationToken cancellationToken)
     {
         if (product is null)
         {
             return false;
         }
-        var addedProduct = await _context.Products.AddAsync(product);
+        var addedProduct = await _context.Products.AddAsync(product, cancellationToken);
         return true;
     }
 

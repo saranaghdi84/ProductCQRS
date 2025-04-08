@@ -14,18 +14,19 @@ public class ProductReadRepository : IProductReadRepository
         _context = context;
     }
 
-    public async Task<IEnumerable<Product>> GetAllAsync()
+    public async Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _context.Products.AsNoTracking().ToListAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId)
+    public async Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId, CancellationToken cancellationToken)
     {
         return await _context.Products.Where(p => p.CategoryId == categoryId).Include(p => p.Category).AsNoTracking().ToListAsync();
     }
 
-    public async Task<Product> GetByIdAsync(long id)
+    public async Task<Product> GetByIdAsync(long id, CancellationToken cancellationToken)
     {
         return await _context.Products.FindAsync(id);
     }
+
 }

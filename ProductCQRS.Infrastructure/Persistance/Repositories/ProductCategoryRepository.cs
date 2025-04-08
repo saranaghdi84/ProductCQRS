@@ -9,19 +9,19 @@ public class ProductCategoryRepository : IProductCategoryRepository
 {
     private readonly CommandDbContext _context;
 
-    public ProductCategoryRepository(CommandDbContext context)
+    public ProductCategoryRepository(CommandDbContext context )
     {
         _context = context;
     }
 
-    public async Task<bool> AddAsync(ProductCategory category)
+    public async Task<bool> AddAsync(ProductCategory category, CancellationToken cancellationToken)
     {
         
         if (category is null)
         {
             return false;
         }
-        var addedCategory = await _context.ProductCategories.AddAsync(category);
+        var addedCategory = await _context.ProductCategories.AddAsync(category , cancellationToken);
         return true;
     }
 
@@ -42,7 +42,7 @@ public class ProductCategoryRepository : IProductCategoryRepository
 
     public async Task<bool> UpdateAsync(ProductCategory category)
     {
-      var updatedCategory =  _context.ProductCategories.Update(category);
+      var updatedCategory =  _context.ProductCategories.Update(category) ;
         if(updatedCategory is null) { return false; }
         return true;
     }

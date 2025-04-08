@@ -6,7 +6,7 @@ namespace ProductCQRS.Infrastructure.Persistance.Context;
 
 public class QueryDbContext : DbContext
 {
-    public QueryDbContext(DbContextOptions<CommandDbContext> options) : base(options) { }
+    public QueryDbContext(DbContextOptions<QueryDbContext> options) : base(options) { }
     public DbSet<Product> Products { get; set; }
     public DbSet<ProductCategory> ProductCategories { get; set; }
 

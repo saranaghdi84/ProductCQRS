@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProductCQRS.Application\ProductCQRS.Application.csproj" />
+    <ProjectReference Include="..\ProductCQRS.Domain\ProductCQRS.Domain.csproj" />
   </ItemGroup>
 
 </Project>

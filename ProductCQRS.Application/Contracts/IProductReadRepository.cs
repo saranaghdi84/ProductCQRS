@@ -4,8 +4,8 @@ namespace ProductCQRS.Application.Contracts;
 
 public interface IProductReadRepository
 {
-    Task<Product> GetByIdAsync(long id);
-    Task<IEnumerable<Product>> GetAllAsync();
-    Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId);
+    Task<Product> GetByIdAsync(long id, CancellationToken cancellationToken);
+    Task<IEnumerable<Product>> GetAllAsync(CancellationToken cancellationToken);
+    Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId, CancellationToken cancellationToken);
 
 }

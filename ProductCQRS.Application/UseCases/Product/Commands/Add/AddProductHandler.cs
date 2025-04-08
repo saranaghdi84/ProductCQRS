@@ -26,19 +26,19 @@ public class AddProductHandler : IRequestHandler<AddProductCommand, Result<bool>
     public async Task<Result<bool>> Handle(AddProductCommand request, CancellationToken cancellationToken)
     {
         var product = _mapper.Map<ProductCQRS.Domain.Entities.Product>(request);
-        var category = await _readUnitOfWork.ProductCategoryReadRepository.GetByIdAsync(request.CategoryId);
+        var category = await _readUnitOfWork.ProductCategoryReadRepository.GetByIdAsync(request.CategoryId , cancellationToken);
 
         if (category == null)
         {
             return Result.Failure<bool>(Error.NotFound("ProductCategory", request.CategoryId));
         }
 
-        bool result = await _unitOfWork.ProductRepository.AddAsync(product);
+        bool result = await _unitOfWork.ProductRepository.AddAsync(product, cancellationToken);
         if (result is false)
         {
             return Result.Failure<bool>(Error.NotFound("Product", request.CategoryId));
         }
-        await _unitOfWork.CommitAsync();
+        await _unitOfWork.CommitAsync( cancellationToken);
 
         return Result.Success(result);
     }

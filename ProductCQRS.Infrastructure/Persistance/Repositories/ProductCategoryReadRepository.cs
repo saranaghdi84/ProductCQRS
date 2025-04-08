@@ -12,12 +12,13 @@ public class ProductCategoryReadRepository : IProductCategoryReadRepository
     {
         _context = context;
     }
-    public async Task<IEnumerable<ProductCategory>> GetAllAsync()
+    public async Task<IEnumerable<ProductCategory>> GetAllAsync(CancellationToken cancellationToken)
     {
         return await _context.ProductCategories.AsNoTracking().ToListAsync(); 
     }
 
-    public async Task<ProductCategory> GetByIdAsync(int id)
+
+    public async Task<ProductCategory> GetByIdAsync(int id, CancellationToken cancellationToken)
     {
         return await _context.ProductCategories.FindAsync(id);
     }
